@@ -23,7 +23,7 @@ function Counter(props) {
   const setCounterValue = stateArr[1];
   */
 
-  const [counterValue, setCounterValue] = useState(0);
+  const [counterValue, setCounterValue] = useState(props.initValue);
   // counterClass state;
   const [counterClass, setCounterClass] = useState('');
 
@@ -47,10 +47,13 @@ function Counter(props) {
     });
   }
 
+  function add10Counters() {
+    setCounterValue((previousCounterValue) => previousCounterValue + 10);
+  }
+
   if (counterValue > 5) {
     // setCounterClass('high');
     cl = 'high';
-    console.log(counterValue);
   } else if (counterValue < 0) {
     clm = 'low';
   }
@@ -63,13 +66,21 @@ function Counter(props) {
 
   return (
     <div className='counter'>
-      <h3>{!props.children === true ? 'Counter' : props.children}</h3>
-      <h2 className={`counter__value ${cl} ${clm}`}>{counterValue}</h2>
+      {/* <h3>{!props.children ? 'Counter' : props.children}</h3> */}
+      <h3>{props.children || 'Counter'}</h3>
+
+      <h2 className={`counter__value ${cl} ${clm}`}>{counterValue || 0}</h2>
       <div className='control'>
         <button onClick={incrementHandler}>+</button>
-        <button onClick={incrementHandlerMinus}>-</button>
+
         <button className='resetBtn' onClick={resetFn}>
           Reset
+        </button>
+        <button disabled={counterValue === -4} onClick={incrementHandlerMinus}>
+          -
+        </button>
+        <button className='add10Btn' onClick={add10Counters}>
+          Counter +10
         </button>
       </div>
     </div>
